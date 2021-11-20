@@ -1,12 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import MintCard from "./components/MintCard";
-import Navbar from "./components/Navbar";
+
+import MintPage from "./pages/MintPage";
+import Collections from "./pages/Collections";
 
 function App() {
     return (
         <div className="App">
-            <Navbar />
-            <MintCard />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<MintPage />} />
+                    <Route path="collections" element={<Collections />} />
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

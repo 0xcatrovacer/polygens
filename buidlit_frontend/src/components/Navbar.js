@@ -2,20 +2,13 @@ import { ReactNode } from "react";
 import {
     Box,
     Flex,
-    Avatar,
-    Link,
     Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    useDisclosure,
+    Link,
     useColorModeValue,
     Stack,
     useColorMode,
-    Center,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
@@ -35,7 +28,6 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Navbar() {
     const { colorMode, toggleColorMode } = useColorMode();
-    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
             <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -45,6 +37,16 @@ export default function Navbar() {
                     justifyContent={"space-between"}
                 >
                     <Box>Project Name</Box>
+                    <Flex width={140} justifyContent={"space-between"}>
+                        <Box>
+                            <RouterLink to="/">Mint</RouterLink>
+                        </Box>
+                        <Box>
+                            <RouterLink to="/collections">
+                                Collections
+                            </RouterLink>
+                        </Box>
+                    </Flex>
 
                     <Flex alignItems={"center"}>
                         <Stack direction={"row"} spacing={7}>
