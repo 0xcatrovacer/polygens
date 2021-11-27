@@ -13,10 +13,11 @@ import {
 
 export default function MintCard() {
     return (
-        <Center py={6}>
+        <Center p={6} mx={20}>
             <Flex
                 mt={20}
-                maxW={"270px"}
+                pb={5}
+                maxW={"350px"}
                 w={"auto"}
                 bg={useColorModeValue("white", "gray.800")}
                 boxShadow={"2xl"}
@@ -27,8 +28,8 @@ export default function MintCard() {
             >
                 <Image
                     h={"auto"}
-                    w={"80%"}
-                    mt={5}
+                    w={"70%"}
+                    mt={10}
                     src={
                         "https://harmoonies.one/images/MintButtonBackground.png"
                     }
