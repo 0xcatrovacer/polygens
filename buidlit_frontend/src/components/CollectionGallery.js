@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./CollectionGallery.css";
+
 import {
     Box,
     Image,
@@ -90,7 +92,7 @@ function CollectionGallery() {
     const [isLargerThanMobile] = useMediaQuery("(min-width: 540px)");
 
     return (
-        <Flex mx={20}>
+        <Flex mx={20} my={20}>
             <SimpleGrid
                 columns={isLargerThanTablet ? 4 : isLargerThanMobile ? 2 : 1}
                 spacing={20}
@@ -108,7 +110,8 @@ const NFTCard = ({ nft }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <Flex
+        /*
+             <Flex
             mt={20}
             w={"auto"}
             bg={useColorModeValue("white", "gray.800")}
@@ -188,7 +191,30 @@ const NFTCard = ({ nft }) => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </Flex>
+            </Flex> 
+            */
+
+        <div className="card">
+            <div className="card__content">
+                <div className="card__front">
+                    <Image
+                        // h={"auto"}
+                        w={"70%"}
+                        ml={10}
+                        src={
+                            "https://harmoonies.one/images/MintButtonBackground.png"
+                        }
+                    />
+                </div>
+
+                <div className="card__back">
+                    <p className="card__body">{nft.name}</p>
+                    <p className="card__body">{nft.token}</p>
+                    <p className="card__body">{nft.rarity}</p>
+                    <p className="card__body">{nft.age}</p>
+                </div>
+            </div>
+        </div>
     );
 };
 
