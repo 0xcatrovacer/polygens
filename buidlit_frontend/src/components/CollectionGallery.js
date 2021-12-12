@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./CollectionGallery.css";
 
@@ -24,74 +24,76 @@ import { Contract, Provider } from "ethers-multicall";
 
 import abi from "../abi.json";
 
-const nftcollections = [
-    {
-        _id: 1,
-        name: "NFT 1",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 2,
-        name: "NFT 2",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 3,
-        name: "NFT 3",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 4,
-        name: "NFT 4",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 5,
-        name: "NFT 5",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 6,
-        name: "NFT 6",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 7,
-        name: "NFT 7",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-    {
-        _id: 8,
-        name: "NFT 8",
-        collapsible: "wot?",
-        rarity: "very rare",
-        age: "20",
-        token: "0.008 ETH",
-    },
-];
+// const nftcollections = [
+//     {
+//         _id: 1,
+//         name: "NFT 1",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 2,
+//         name: "NFT 2",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 3,
+//         name: "NFT 3",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 4,
+//         name: "NFT 4",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 5,
+//         name: "NFT 5",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 6,
+//         name: "NFT 6",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 7,
+//         name: "NFT 7",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+//     {
+//         _id: 8,
+//         name: "NFT 8",
+//         collapsible: "wot?",
+//         rarity: "very rare",
+//         age: "20",
+//         token: "0.008 ETH",
+//     },
+// ];
 
 function CollectionGallery({ signer, provider }) {
+    const [nftcollections, setnftcollections] = useState();
+
     const [isLargerThanTablet] = useMediaQuery("(min-width: 940px)");
     const [isLargerThanMobile] = useMediaQuery("(min-width: 540px)");
 
@@ -111,8 +113,9 @@ function CollectionGallery({ signer, provider }) {
 
         const result = await contract.balanceOf(address);
 
-        // console.log(BigNumber.from(result._hex));
-        console.log(BigNumber.from("0x02"));
+        const num = result.toNumber();
+
+        // console.log(num);
 
         const ethcallProvider = new Provider(provider);
 
@@ -123,13 +126,33 @@ function CollectionGallery({ signer, provider }) {
 
         // console.log(address);
 
-        const call1 = contract2.tokenOfOwnerByIndex(address, 0);
+        const calls = [];
 
-        const call2 = contract2.tokenURI(1);
+        const newData = [];
 
-        const data = await ethcallProvider.all([call1, call2]);
+        for (let i = 0; i < num; i++) {
+            calls.push(contract2.tokenOfOwnerByIndex(address, i));
+        }
 
-        console.log(data);
+        // console.log(calls);
+
+        // const call1 = contract2.tokenOfOwnerByIndex(address, 0);
+
+        const data = await ethcallProvider.all(calls);
+
+        const call2 = contract2.tokenURI([calls]);
+
+        // console.log(data);
+
+        data.map((data) => {
+            newData.push(contract2.tokenURI(data));
+        });
+
+        // console.log(newData);
+
+        const finalData = await ethcallProvider.all(newData);
+
+        setnftcollections(finalData);
     };
 
     fn();
@@ -141,9 +164,7 @@ function CollectionGallery({ signer, provider }) {
                 spacing={20}
             >
                 {nftcollections &&
-                    nftcollections.map((nft) => (
-                        <NFTCard nft={nft} key={nft._id} />
-                    ))}
+                    nftcollections.map((nft) => <NFTCard nft={nft} />)}
             </SimpleGrid>
         </Flex>
     );
@@ -153,27 +174,12 @@ const NFTCard = ({ nft }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <div className="card">
-            <div className="card__content">
-                <div className="card__front">
-                    <Image
-                        // h={"auto"}
-                        w={"70%"}
-                        ml={10}
-                        src={
-                            "https://harmoonies.one/images/MintButtonBackground.png"
-                        }
-                    />
-                </div>
-
-                <div className="card__back">
-                    <p className="card__body">{nft.name}</p>
-                    <p className="card__body">{nft.token}</p>
-                    <p className="card__body">{nft.rarity}</p>
-                    <p className="card__body">{nft.age}</p>
-                </div>
-            </div>
-        </div>
+        <Image
+            // h={"auto"}
+            w={"70%"}
+            ml={10}
+            src={nft}
+        />
     );
 };
 

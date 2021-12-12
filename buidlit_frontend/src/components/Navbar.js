@@ -36,7 +36,7 @@ export default function Navbar() {
                     alignItems={"center"}
                     justifyContent={"space-between"}
                 >
-                    <Box>Project Name</Box>
+                    <Box>PolyGens</Box>
                     <Flex width={140} justifyContent={"space-between"}>
                         <Box>
                             <RouterLink to="/">Mint</RouterLink>
