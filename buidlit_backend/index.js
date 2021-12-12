@@ -5,7 +5,7 @@ const axios = require("axios");
 
 var app = express();
 
-var PORT = 4193;
+var PORT = process.env.PORT || 4193;
 
 app.get("/:id", async (req, res) => {
     try {
@@ -14,7 +14,7 @@ app.get("/:id", async (req, res) => {
 
         if (parseInt(id) <= parseInt(totalSupply)) {
             const resp = await axios.get(
-                `https://gateway.pinata.cloud/ipfs/QmbBaacQJBy18r13qU3V4yweJ9qTGpMPWrW9BxYeLQWYbd/${id}.png`
+                `https://gateway.pinata.cloud/ipfs/QmetXqt6EkeTYKteRFSyvmEEyYuvjfJqtk6psMFaZGXqgF/${id}.png`
             );
             return res.send({
                 success: true,
