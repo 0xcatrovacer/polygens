@@ -11,6 +11,7 @@ import abi from "./abi.json";
 function App() {
     const [provider, setProvider] = useState({});
     const [signer, setSigner] = useState({});
+    const [receipt, setReceipt] = useState();
 
     useEffect(async () => {
         const provider = new ethers.providers.Web3Provider(
@@ -25,27 +26,11 @@ function App() {
         console.log("Account:", await signer.getAddress());
     }, []);
 
-    const fn = async () => {
-        const contract = new Contract(
-            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
-            abi,
-            signer
-        );
-
-        const result = await contract.mint(0, {
-            value: ethers.utils.parseEther("0.01"),
-        });
-
-        const receipt = await result.wait();
-
-        console.log(result, receipt);
-    };
-
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MintPage fn={fn} />} />
+                    <Route path="/" element={<MintPage signer={signer} />} />
                     <Route
                         path="collections"
                         element={

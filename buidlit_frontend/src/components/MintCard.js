@@ -10,11 +10,45 @@ import {
     FormLabel,
     Select,
 } from "@chakra-ui/react";
+import { Contract, ethers } from "ethers";
+import { useEffect, useState } from "react";
+
+import abi from "../abi.json";
+
 import { useNavigate } from "react-router-dom";
 
-export default function MintCard({ fn }) {
-    const navigate = useNavigate();
+export default function MintCard() {
+    const [signer, setSigner] = useState({});
+    const [token, setToken] = useState(0);
 
+    useEffect(async () => {
+        const provider = new ethers.providers.Web3Provider(
+            window.ethereum,
+            "any"
+        );
+        // Prompt user for account connections
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        setSigner(signer);
+    }, []);
+
+    const mintfn = async (token) => {
+        const contract = new Contract(
+            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            abi,
+            signer
+        );
+
+        const result = await contract.mint(token, {
+            value: ethers.utils.parseEther("0.01"),
+        });
+
+        const receipt = await result.wait();
+
+        console.log(result, receipt);
+    };
+
+    const navigate = useNavigate();
     return (
         <Center p={6} mx={20}>
             <Flex
@@ -49,10 +83,38 @@ export default function MintCard({ fn }) {
                         <FormControl id="token">
                             <FormLabel>Token</FormLabel>
                             <Select placeholder="Select token">
-                                <option value={0}>BTC</option>
-                                <option value={1}>DAI</option>
-                                <option value={2}>ETH</option>
-                                <option value={3}>MATIC</option>
+                                <option
+                                    value={0}
+                                    onSelect={() => {
+                                        setToken(0);
+                                    }}
+                                >
+                                    BTC
+                                </option>
+                                <option
+                                    value={1}
+                                    onSelect={() => {
+                                        setToken(1);
+                                    }}
+                                >
+                                    DAI
+                                </option>
+                                <option
+                                    value={2}
+                                    onSelect={() => {
+                                        setToken(2);
+                                    }}
+                                >
+                                    ETH
+                                </option>
+                                <option
+                                    value={3}
+                                    onSelect={() => {
+                                        setToken(3);
+                                    }}
+                                >
+                                    MATIC
+                                </option>
                             </Select>
                         </FormControl>
                     </Stack>
@@ -68,8 +130,10 @@ export default function MintCard({ fn }) {
                             boxShadow: "lg",
                         }}
                         onClick={async () => {
-                            await fn();
+                            await mintfn(token);
+                            // if (receipt.status === 1) {
                             navigate("/collections");
+                            // }
                         }}
                     >
                         Mint
