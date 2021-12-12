@@ -2,30 +2,32 @@ var express = require("express");
 const ContractMethods = require("./src/web3/Methods");
 const contractMethods = new ContractMethods();
 const axios = require("axios");
+const http = require("http");
+const got = require("got");
 
 var app = express();
 
 var PORT = process.env.PORT || 4193;
 
-app.get("/:id", async (req, res) => {
+app.get("/:folder/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        const folder = req.params.folder;
+        const id = req.params.id;
+
         const totalSupply = await contractMethods.totalSupply();
 
         if (parseInt(id) <= parseInt(totalSupply)) {
-            const resp = await axios.get(
-                `https://gateway.pinata.cloud/ipfs/QmetXqt6EkeTYKteRFSyvmEEyYuvjfJqtk6psMFaZGXqgF/${id}.png`
-            );
+            got.stream(
+                `https://gateway.pinata.cloud/ipfs/QmetXqt6EkeTYKteRFSyvmEEyYuvjfJqtk6psMFaZGXqgF/${folder}/${id}.png`
+            ).pipe(res);
+        } else {
             return res.send({
-                success: true,
-                data: "Will appear when you convert from Images to JSON",
+                success: false,
+                data: "Trait Sniping Not Allowed",
             });
         }
-        return res.send({
-            success: false,
-            data: "Don't trait snipe plz",
-        });
     } catch (e) {
+        console.log(e);
         return res.send({
             success: false,
             data: "some error",
