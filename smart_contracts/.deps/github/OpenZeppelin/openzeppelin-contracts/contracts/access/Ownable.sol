@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts v4.3.2 (access/Ownable.sol)
+// OpenZeppelin Contracts v4.4.0 (access/Ownable.sol)
 
 pragma solidity ^0.8.0;
 
@@ -17,7 +17,6 @@ import "../utils/Context.sol";
  * `onlyOwner`, which can be applied to your functions to restrict their use to
  * the owner.
  */
-
 abstract contract Ownable is Context {
     address private _owner;
 
