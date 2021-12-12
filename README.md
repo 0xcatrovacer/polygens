@@ -1,3 +1,3 @@
 ## PolyGens
 
-Contracts have been deployed on Polygon TestNet
+Contracts have been deployed on Mumbai Testnet
