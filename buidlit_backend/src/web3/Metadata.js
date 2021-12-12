@@ -1,2 +1,2 @@
-module.exports.ADDRESS = "0xDAE1Bb19b1298Da3917dd9286A3b1c1c7443A754";
+module.exports.ADDRESS = "0xF37d78b496e5f5a34c5811A027202bf52e45fC87";
 module.exports.ABI = require("./abi.json");

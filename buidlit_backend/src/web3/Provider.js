@@ -3,7 +3,7 @@ class Provider {
     constructor() {
         //setup web3 provider
         this.web3 = new Web3(
-            new Web3.providers.HttpProvider("https://api.s0.b.hmny.io")
+            new Web3.providers.HttpProvider("https://rpc-mumbai.maticvigil.com")
         );
     }
 }

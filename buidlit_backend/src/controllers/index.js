@@ -5,25 +5,27 @@ const axios = require("axios");
 
 var app = express();
 
-var PORT = 4193;
+var PORT = process.env.PORT || 4193;
 
-app.get("/:id", async (req, res) => {
+app.get("/:folder/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        const folder = req.params.folder;
+        const id = req.params.id;
         const totalSupply = await contractMethods.totalSupply();
 
         if (parseInt(id) <= parseInt(totalSupply)) {
             const resp = await axios.get(
-                `https://gateway.pinata.cloud/ipfs/QmbBaacQJBy18r13qU3V4yweJ9qTGpMPWrW9BxYeLQWYbd/${id}.png`
+                `https://gateway.pinata.cloud/ipfs/QmetXqt6EkeTYKteRFSyvmEEyYuvjfJqtk6psMFaZGXqgF/${folder}/${id}.json`
             );
             return res.send({
                 success: true,
                 data: "Will appear when you convert from Images to JSON",
+                // resp,
             });
         }
         return res.send({
             success: false,
-            data: "Trait Sniping is not allowed",
+            data: "Don't trait snipe plz",
         });
     } catch (e) {
         return res.send({
