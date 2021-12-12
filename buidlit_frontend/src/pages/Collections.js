@@ -2,11 +2,11 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import CollectionGallery from "../components/CollectionGallery";
 
-function Collections() {
+function Collections({ provider, signer }) {
     return (
         <div>
             <Navbar />
-            <CollectionGallery />
+            <CollectionGallery provider={provider} signer={signer} />
         </div>
     );
 }
