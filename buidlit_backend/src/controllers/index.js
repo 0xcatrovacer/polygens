@@ -23,7 +23,7 @@ app.get("/:id", async (req, res) => {
         }
         return res.send({
             success: false,
-            data: "Don't trait snipe plz",
+            data: "Trait Sniping is not allowed",
         });
     } catch (e) {
         return res.send({
