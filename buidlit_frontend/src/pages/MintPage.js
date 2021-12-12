@@ -48,7 +48,7 @@ const recent_nfts = [
     },
 ];
 
-function MintPage() {
+function MintPage({ fn }) {
     const [isLargerThanTablet] = useMediaQuery("(min-width: 940px)");
 
     return (
@@ -59,7 +59,7 @@ function MintPage() {
                 alignItems={isLargerThanTablet ? "start" : "center"}
                 flexDirection={isLargerThanTablet ? "row" : "column"}
             >
-                <MintCard />
+                <MintCard fn={fn} />
                 <RecentlyMinted recent_nfts={recent_nfts} />
             </Flex>
         </div>

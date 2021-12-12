@@ -19,6 +19,10 @@ import {
     ModalCloseButton,
     useDisclosure,
 } from "@chakra-ui/react";
+import { ethers, BigNumber } from "ethers";
+import { Contract, Provider } from "ethers-multicall";
+
+import abi from "../abi.json";
 
 const nftcollections = [
     {
@@ -87,9 +91,48 @@ const nftcollections = [
     },
 ];
 
-function CollectionGallery() {
+function CollectionGallery({ signer, provider }) {
     const [isLargerThanTablet] = useMediaQuery("(min-width: 940px)");
     const [isLargerThanMobile] = useMediaQuery("(min-width: 540px)");
+
+    const fn = async () => {
+        const contract = new ethers.Contract(
+            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            abi,
+            signer
+        );
+
+        const contract2 = new Contract(
+            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            abi
+        );
+
+        const address = await signer.getAddress(0);
+
+        const result = await contract.balanceOf(address);
+
+        // console.log(BigNumber.from(result._hex));
+        console.log(BigNumber.from("0x02"));
+
+        const ethcallProvider = new Provider(provider);
+
+        await ethcallProvider.init(); // Only required when `chainId` is not provided in the `Provider` constructor
+        ethcallProvider._multicallAddress =
+            "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc";
+        // console.log(ethcallProvider);
+
+        // console.log(address);
+
+        const call1 = contract2.tokenOfOwnerByIndex(address, 0);
+
+        const call2 = contract2.tokenURI(1);
+
+        const data = await ethcallProvider.all([call1, call2]);
+
+        console.log(data);
+    };
+
+    fn();
 
     return (
         <Flex mx={20} my={20}>

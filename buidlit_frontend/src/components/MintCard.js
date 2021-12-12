@@ -10,8 +10,11 @@ import {
     FormLabel,
     Select,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-export default function MintCard() {
+export default function MintCard({ fn }) {
+    const navigate = useNavigate();
+
     return (
         <Center p={6} mx={20}>
             <Flex
@@ -46,10 +49,10 @@ export default function MintCard() {
                         <FormControl id="token">
                             <FormLabel>Token</FormLabel>
                             <Select placeholder="Select token">
-                                <option>ETH</option>
-                                <option>BTC</option>
-                                <option>SOL</option>
-                                <option>MATIC</option>
+                                <option value={0}>BTC</option>
+                                <option value={1}>DAI</option>
+                                <option value={2}>ETH</option>
+                                <option value={3}>MATIC</option>
                             </Select>
                         </FormControl>
                     </Stack>
@@ -63,6 +66,10 @@ export default function MintCard() {
                         _hover={{
                             transform: "translateY(-2px)",
                             boxShadow: "lg",
+                        }}
+                        onClick={async () => {
+                            await fn();
+                            navigate("/collections");
                         }}
                     >
                         Mint
