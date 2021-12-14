@@ -92,7 +92,9 @@ function CollectionGallery() {
         setnftcollections(finalData);
     };
 
-    fn();
+    useEffect(() => {
+        fn();
+    }, []);
 
     return (
         <Flex mx={20} my={20}>

@@ -1,7 +1,7 @@
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/layout";
 import { ethers } from "ethers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import abi from "../abi.json";
 
@@ -34,7 +34,10 @@ const RecentlyMinted = () => {
 
         setRecent(recents);
     };
-    fn();
+
+    useEffect(() => {
+        fn();
+    }, []);
 
     return (
         <Box>
