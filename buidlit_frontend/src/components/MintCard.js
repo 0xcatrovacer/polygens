@@ -82,44 +82,22 @@ export default function MintCard() {
                     >
                         <FormControl id="token">
                             <FormLabel>Token</FormLabel>
-                            <Select placeholder="Select token">
-                                <option
-                                    value={0}
-                                    onSelect={() => {
-                                        setToken(0);
-                                    }}
-                                >
-                                    BTC
-                                </option>
-                                <option
-                                    value={1}
-                                    onSelect={() => {
-                                        setToken(1);
-                                    }}
-                                >
-                                    DAI
-                                </option>
-                                <option
-                                    value={2}
-                                    onSelect={() => {
-                                        setToken(2);
-                                    }}
-                                >
-                                    ETH
-                                </option>
-                                <option
-                                    value={3}
-                                    onSelect={() => {
-                                        setToken(3);
-                                    }}
-                                >
-                                    MATIC
-                                </option>
+                            <Select
+                                placeholder="Select token"
+                                onChange={(e) => {
+                                    setToken(e.target.value);
+                                }}
+                            >
+                                <option value={0}>BTC</option>
+                                <option value={1}>DAI</option>
+                                <option value={2}>ETH</option>
+                                <option value={3}>MATIC</option>
                             </Select>
                         </FormControl>
                     </Stack>
 
                     <Button
+                        className="btn btn__primary"
                         w={"full"}
                         mt={8}
                         bg={useColorModeValue("#151f21", "gray.900")}
