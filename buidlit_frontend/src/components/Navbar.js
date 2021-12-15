@@ -36,7 +36,7 @@ export default function Navbar() {
                     alignItems={"center"}
                     justifyContent={"space-between"}
                 >
-                    <Box fontSize={25} ml={4} color={"#F4CF7D"}>
+                    <Box fontSize={25} ml={4} color={"#8D6FD8"}>
                         PolyGens
                     </Box>
                     <Flex width={180} justifyContent={"space-between"}>
