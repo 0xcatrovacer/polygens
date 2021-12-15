@@ -48,7 +48,7 @@ contract Art is Ownable,ReentrancyGuard,ERC721Enumerable{
         priceFeed.push(AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada));
     }
     
-    function mint(uint8 priceFeedIndex) external isNotPaused nonReentrant payable{
+    function mint(uint8 priceFeedIndex) external isNotPaused nonReentrant payable returns(uint){
         require(tokenId_.current() < MAX_SUPPLY,"Minting Exceeds max supply");
         require(msg.value >= PRICE,"Amount paid is less than price");
         require(priceFeedIndex < getFeedsCount(),"Invalid feed index");
@@ -59,6 +59,7 @@ contract Art is Ownable,ReentrancyGuard,ERC721Enumerable{
                                                 priceFeedIndex,
                                                 getPriceFeed(priceFeedIndex)
                                             );
+        return tokenId_.current();
     }
     
     function _baseURI() internal view override returns (string memory){
