@@ -1,4 +1,6 @@
-## PolyGens
+# PolyGens
+
+## Polygon BUIDL IT Hackathon
 
 Contracts have been deployed on Mumbai Testnet
 
