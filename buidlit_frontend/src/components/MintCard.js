@@ -28,7 +28,7 @@ export default function MintCard() {
     const [signer, setSigner] = useState({});
     const [token, setToken] = useState(0);
     const [mintedNFT, setMintedNFT] = useState("");
-    const [tokenid, setTokenId] = useState(0);
+    const [tokenid, setTokenId] = useState(49);
 
     useEffect(async () => {
         const provider = new ethers.providers.Web3Provider(
