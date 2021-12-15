@@ -17,7 +17,7 @@ const RecentlyMinted = () => {
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            "0x1833bF54dfB030CE9Ff925B9F0F4a4a7DC353c06",
             abi,
             signer
         );
@@ -31,6 +31,8 @@ const RecentlyMinted = () => {
         for (let k = num; k > num - 5; k--) {
             recents.push({ url: await contract.tokenURI(k), token: k });
         }
+
+        // console.log(recents);
 
         setRecent(recents);
     };
