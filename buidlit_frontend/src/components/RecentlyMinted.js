@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 
 import abi from "../abi.json";
 
+import "./RecentlyMinted.css";
+
 const RecentlyMinted = () => {
     const [recent_nfts, setRecent] = useState([]);
 
@@ -41,16 +43,23 @@ const RecentlyMinted = () => {
 
     return (
         <Box>
-            <Text fontSize="3xl" fontWeight={500} my={10}>
-                RECENTLY MINTED
+            <Text
+                fontSize="3xl"
+                fontWeight={500}
+                my={10}
+                ml={5}
+                color={"#F4CF7D"}
+            >
+                Recently Minted
             </Text>
             <SimpleGrid columns={1} spacing={10}>
                 {recent_nfts &&
                     recent_nfts.map((nft) => {
                         return (
                             <Flex
+                                className="recently__card"
                                 my={5}
-                                w={"300px"}
+                                w={"250px"}
                                 boxShadow={"2xl"}
                                 rounded={"md"}
                                 overflow={"hidden"}
@@ -59,12 +68,14 @@ const RecentlyMinted = () => {
                             >
                                 <Image
                                     h={"auto"}
-                                    w={"50%"}
+                                    w={"90%"}
                                     mt={5}
                                     src={nft.url}
                                 />
 
-                                <Text>PolyGens #{nft.token}</Text>
+                                <Text fontSize={20} my={5} color={"#F4CF7D"}>
+                                    PolyGens #{nft.token}
+                                </Text>
                             </Flex>
                         );
                     })}

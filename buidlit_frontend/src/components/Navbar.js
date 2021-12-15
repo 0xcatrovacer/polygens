@@ -32,16 +32,18 @@ export default function Navbar() {
         <>
             <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
                 <Flex
-                    h={16}
+                    h={20}
                     alignItems={"center"}
                     justifyContent={"space-between"}
                 >
-                    <Box>PolyGens</Box>
-                    <Flex width={140} justifyContent={"space-between"}>
-                        <Box>
+                    <Box fontSize={25} ml={4} color={"#F4CF7D"}>
+                        PolyGens
+                    </Box>
+                    <Flex width={180} justifyContent={"space-between"}>
+                        <Box fontSize={20}>
                             <RouterLink to="/">Mint</RouterLink>
                         </Box>
-                        <Box>
+                        <Box fontSize={20}>
                             <RouterLink to="/collections">
                                 Collections
                             </RouterLink>
