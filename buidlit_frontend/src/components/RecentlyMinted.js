@@ -5,8 +5,6 @@ import React, { useEffect, useState } from "react";
 
 import abi from "../abi.json";
 
-import "./RecentlyMinted.css";
-
 const RecentlyMinted = () => {
     const [recent_nfts, setRecent] = useState([]);
 
@@ -48,7 +46,7 @@ const RecentlyMinted = () => {
                 fontWeight={500}
                 my={10}
                 ml={5}
-                color={"#F4CF7D"}
+                color={"#8D6FD7"}
             >
                 Recently Minted
             </Text>
@@ -73,7 +71,7 @@ const RecentlyMinted = () => {
                                     src={nft.url}
                                 />
 
-                                <Text fontSize={20} my={5} color={"#F4CF7D"}>
+                                <Text fontSize={20} my={5} color={"#8D6FD7"}>
                                     PolyGens #{nft.token}
                                 </Text>
                             </Flex>

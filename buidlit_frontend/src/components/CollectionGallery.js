@@ -79,7 +79,6 @@ function CollectionGallery() {
         // const call1 = contract2.tokenOfOwnerByIndex(address, 0);
 
         const data = await ethcallProvider.all(calls);
-        // console.log(data);
 
         data.map((data) => {
             newData.push(contract2.tokenURI(data));
@@ -87,9 +86,17 @@ function CollectionGallery() {
 
         // console.log(newData);
 
-        const finalData = await ethcallProvider.all(newData);
+        const respData = await ethcallProvider.all(newData);
 
-        setnftcollections(finalData);
+        // setnftcollections(respData);
+
+        const collections = [];
+
+        for (let k = 0; k < data.length; k++) {
+            collections[k] = { data: respData[k], token: data[k].toNumber() };
+        }
+
+        setnftcollections(collections);
     };
 
     useEffect(() => {
@@ -97,15 +104,22 @@ function CollectionGallery() {
     }, []);
 
     return (
-        <Flex mx={20} my={20}>
-            <SimpleGrid
-                columns={isLargerThanTablet ? 4 : isLargerThanMobile ? 2 : 1}
-                spacing={20}
-            >
-                {nftcollections &&
-                    nftcollections.map((nft) => <NFTCard nft={nft} />)}
-            </SimpleGrid>
-        </Flex>
+        <div>
+            <Text fontSize={40} mt={20} ml={20} color={"#8D6FD7"}>
+                Your Collections
+            </Text>
+            <Flex mx={20} my={20}>
+                <SimpleGrid
+                    columns={
+                        isLargerThanTablet ? 4 : isLargerThanMobile ? 2 : 1
+                    }
+                    spacing={20}
+                >
+                    {nftcollections &&
+                        nftcollections.map((nft) => <NFTCard nft={nft} />)}
+                </SimpleGrid>
+            </Flex>
+        </div>
     );
 }
 
@@ -113,14 +127,16 @@ const NFTCard = ({ nft }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <div>
+        <Flex flexDirection={"column"} alignItems={"center"}>
             <Image
                 // h={"auto"}
                 w={"100%"}
-                ml={10}
-                src={nft}
+                src={nft.data}
             />
-        </div>
+            <Text fontSize={20} mt={5}>
+                PolyGens #{nft.token}
+            </Text>
+        </Flex>
     );
 };
 
