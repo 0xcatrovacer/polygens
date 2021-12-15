@@ -39,13 +39,13 @@ function CollectionGallery() {
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            "0x1833bF54dfB030CE9Ff925B9F0F4a4a7DC353c06",
             abi,
             signer
         );
 
         const contract2 = new Contract(
-            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            "0x1833bF54dfB030CE9Ff925B9F0F4a4a7DC353c06",
             abi
         );
 
@@ -124,8 +124,6 @@ function CollectionGallery() {
 }
 
 const NFTCard = ({ nft }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
     return (
         <Flex flexDirection={"column"} alignItems={"center"}>
             <Image

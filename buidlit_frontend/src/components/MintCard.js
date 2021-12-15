@@ -9,17 +9,26 @@ import {
     FormControl,
     FormLabel,
     Select,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Text,
 } from "@chakra-ui/react";
 import { Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 import abi from "../abi.json";
 
-import { useNavigate } from "react-router-dom";
-
 export default function MintCard() {
     const [signer, setSigner] = useState({});
     const [token, setToken] = useState(0);
+    const [mintedNFT, setMintedNFT] = useState("");
+    const [tokenid, setTokenId] = useState(49);
 
     useEffect(async () => {
         const provider = new ethers.providers.Web3Provider(
@@ -31,13 +40,34 @@ export default function MintCard() {
         const signer = provider.getSigner();
         setSigner(signer);
     }, []);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const mintfn = async (token) => {
         const contract = new Contract(
-            "0xF37d78b496e5f5a34c5811A027202bf52e45fC87",
+            "0x1833bF54dfB030CE9Ff925B9F0F4a4a7DC353c06",
             abi,
             signer
         );
+
+        const wsProvider = new ethers.providers.WebSocketProvider(
+            "wss://rpc-mumbai.maticvigil.com/ws/v1/9a9736ed65423cc5678dd3653932d27facaf1e6b"
+        );
+
+        const wsSigner = await wsProvider.getSigner();
+
+        const wsContract = new Contract(
+            "0x1833bF54dfB030CE9Ff925B9F0F4a4a7DC353c06",
+            abi,
+            wsSigner
+        );
+
+        wsContract.on("Transfer", (from, to, tokenId) => {
+            // if (to === signer.getAddress(0)) {
+            console.log(tokenId);
+            setTokenId(tokenId.toNumber());
+            // }
+            // wsContract.off("Transfer");
+        });
 
         const result = await contract.mint(token, {
             value: ethers.utils.parseEther("0.01"),
@@ -45,10 +75,19 @@ export default function MintCard() {
 
         const receipt = await result.wait();
 
-        console.log(result, receipt);
+        // console.log(result, receipt);
+
+        console.log(tokenid);
+        const nftToken = await contract.tokenURI(tokenid);
+        console.log(nftToken);
+        setMintedNFT(nftToken);
+        console.log(mintedNFT);
+
+        onOpen();
+
+        // console.log(receipt.events[1].decode);
     };
 
-    const navigate = useNavigate();
     return (
         <Center p={6} mx={20}>
             <Flex
@@ -110,12 +149,46 @@ export default function MintCard() {
                         onClick={async () => {
                             await mintfn(token);
                             // if (receipt.status === 1) {
-                            navigate("/collections");
                             // }
                         }}
                     >
                         Mint
                     </Button>
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader fontSize={25}>
+                                Congratulations!
+                            </ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody
+                                display={"flex"}
+                                flexDirection={"column"}
+                                alignItems={"center"}
+                            >
+                                <Image
+                                    h={"auto"}
+                                    w={"70%"}
+                                    mt={10}
+                                    src={mintedNFT}
+                                    // objectFit={"cover"}
+                                />
+                                <Text fontSize={25} my={10}>
+                                    You minted: Polygens #{tokenid}
+                                </Text>
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Button
+                                    colorScheme="blue"
+                                    mr={3}
+                                    onClick={onClose}
+                                >
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
                 </Box>
             </Flex>
         </Center>
